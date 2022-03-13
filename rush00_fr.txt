@@ -1,0 +1,592 @@
+//ft_putchar.c
+
+la fonction ft_putchar permet d'écrire un caractère.
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+- dans le write(1, &c, 1), le premier 1 signifie 'standard output'.
+
+- &c signifie 'l'adresse de la variable c',
+	car nous devrions mettre l'adresse en deuxième argument.
+- le dernier 1 signifie 'les longueurs du caractère c'.
+	ft_putchar n'imprimera qu'un caractère, pas un string.
+	vous devez donc écrire 1 comme troisième argument.
+	(la longueur du caractère est toujours 1)
+
+---------------------------------------------------------------------------
+
+//main.c
+
+à l'intérieur de la fonction main, vous n'utiliserez que la fonction rush() qui se trouve à l'intérieur de rush0X.c.
+
+vous devez donc appeler la fonction rush() comme celle-ci,
+pour utiliser rush() dans main,
+void	rush(int x, int y);
+avant d'écrire la fonction main.
+
+je vais vous expliquer la fonction rush() en détail ci-dessous,
+mais fondamentalement, rush() prend deux arguments appelés x et y.
+
+dit le sujet,
+rush(4, 4) devrait afficher :
+$>./a.out
+o--o
+|  |
+|  |
+o--o
+
+je dirai la direction horizontale comme un 'axe x',
+et la direction verticale comme 'axe y'.
+donc, si vous mettez rush(4, 4), le résultat a 4 lignes de direction horizontale,
+et 4 lignes de direction verticale.   1234  (<- x axis)
+				     1 o--o
+				     2 |  |
+				     3 |  |
+				     4 o--o
+				    (^ y axis)
+
+int	main(void)
+{
+	rush(4, 4);
+	return (0);
+}
+
+si vous voulez exécuter votre programme, vous devez d'abord compiler.
+
+mais sans fonction main, le compilateur (dans ce projet, c'est gcc)
+ne fonctionnera pas avec l'erreur que vous n'avez pas de fonction main. 
+c'est pourquoi nous utilisons la fonction main.
+
+à l'intérieur de la main, je n'ai utilisé que la fonction rush().
+si vous voulez voir d'autres résultats,
+vous pouvez modifier le nombre comme vous le souhaitez.
+
+par exemple, vous pouvez modifier le nombre comme rush(6,3).
+int	main()void
+{
+	rush(6,3);
+	return (0);
+}
+
+---------------------------------------------------------------------------
+
+//rush00.c, rush01.c, rush02.c, rush03.c, rush04.c
+
+fondamentalement, le rush0X.c a exactement la même logique.
+voyons la fonction rush() dans rush00.c.
+
+void	rush(int x, int y)
+{
+	int	cnt_x;
+	int	cnt_y;
+
+	cnt_x = 1;
+	cnt_y = 1;
+	if (x < 0 || y < 0 || x > 2147483647 || y > 2147483647)
+	{
+		err_msg();
+		return ;
+	}
+	while (cnt_y <= y)
+	{
+		if (cnt_y == 1)
+			ft_print_first_line(cnt_x, x);
+		else if (cnt_y == y)
+			ft_print_last_line(cnt_x, x);
+		else
+			ft_print_middle_line(cnt_x, x);
+		ft_putchar('\n');
+		cnt_y++;
+		cnt_x = 1;
+	}
+}
+
+comme je l'ai expliqué précédemment, rush() prend deux arguments appelés x et y.
+'axe x' représente la direction horizontale,
+'axe y' représente la direction verticale.
+
+           1234 (<- x axis)
+         1 o--o
+         2 |  |
+         3 |  |
+         4 o--o
+        (^ y axis)
+
+j'ai déclaré les variables 'cnt_x' et 'cnt_y' pour compter les axes x et y.
+puis initialisé à 1(généralement, nous avons tendance à initialiser la variable
+int à 0, mais je l'ai fait à 1 parce que c'est plus facile
+à voir dans cette fonction)
+
+if (x < 0 || y < 0 || x > 2147483647 || y > 2147483647)
+{
+	err_msg();
+	return ;
+}
+
+si x ou y est inférieur à 0, un message d'erreur doit être imprimé.
+car lorsque l'un d'eux est un nombre négatif,
+nous ne pouvons pas exprimer le résultat.
+
+si x ou y est supérieur à 2147483647, un message d'erreur doit être imprimé.
+car le nombre 2147483648 signifie la valeur maximale de la variable int,
+donc quand l'un de x et y est plus grand que 2147483648, ce n'est plus int.
+
+	    (x)1234 (<- x axis)
+	  (y)
+	   1   o--o
+	   2   |  |
+	   3   |  |
+	   4   o--o
+	  (^ y axis)
+
+while(cnt_y <= y)
+{
+	if (cnt_y == 1)
+		ft_print_first_line(cnt_x, x);
+	else if (cnt_y == y)
+		ft_print_last_line(cnt_x, x);
+	else
+		ft_print_middle_line(cnt_x, x);
+	ft_putchar('\n');
+	cnt_y++;
+	cnt_x = 1;
+}
+
+après avoir initialisé cnt_x et cnt_y à 1, il ira à l'intérieur de la boucle while.
+cnt_y sera augmenté comme 1, 2, 3, ..., jusqu'à y+1.
+quand il devient y+1, il est plus grand que y donc il échappera à la boucle while. 
+
+disons que cnt_y vaut 1.
+
+********** cnt_y == 1 **********
+
+quand cnt_y vaut 1, il ira à l'intérieur de 'if (cnt_y == 1)'.
+nous allons entrer dans la fonction ft_print_first_line().
+
+la fonction ft_print_first_line() imprime la première ligne.
+(je veux dire, y est 1(o--o))
+
+void	ft_print_first_line(int cnt_x, int x)
+{
+	while (cnt_x <= x)
+	{
+		if (cnt_x == 1)
+			ft_putchar('o');
+		else if (cnt_x == x)
+			ft_putchar('o');
+		else
+			ft_putchar('-');
+		cnt_x++;
+	}
+}
+
+ft_print_first_line() prend deux arguments de cnt_x et x.
+nous avons déjà initialisé cnt_x à 1 dans la fonction rush().
+donc ça va commencer par 1, et aller à l'intérieur de la boucle while.
+cnt_x sera augmenté comme 1, 2, 3, ..., jusqu'à x+1.
+quand il devient x+1, il est plus grand que x donc il échappera à la boucle while.
+
+disons que cnt_x vaut 1.
+
+##### cnt_y == 1 ##### cnt_x == 1 #####
+
+quand cnt_x vaut 1, il ira à l'intérieur de 'if (cnt_x == 1)'.
+il imprimera le caractère 'o' (la position imprimée (x, y) est (1, 1)).
+après avoir imprimé le caractère 'o', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o
+
+maintenant cnt_x vaut 2.
+
+##### cnt_y == 1 ##### cnt_x == 2 #####
+
+quand cnt_x vaut 2, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère '-' (la position imprimée (x, y) est (2, 1)).
+après avoir imprimé le caractère '-', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o-
+
+disons que cnt_x vaut 3.
+
+##### cnt_y == 1 ##### cnt_x == 3 #####
+
+quand cnt_x vaut 3, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère '-' (la position imprimée (x, y) est (3, 1)).
+après avoir imprimé le caractère '-', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--
+
+disons que cnt_x vaut 4.
+
+##### cnt_y == 1 ##### cnt_x == 4 #####
+
+quand cnt_x vaut 4, il ira à l'intérieur de 'else if (cnt_x == x)'
+(parce qu'à l'intérieur du main, nous mettons (x, y) comme (4, 4), donc x vaut 4).
+il imprimera le caractère 'o' (la position imprimée (x, y) est (4, 1)).
+après avoir imprimé le caractère 'o', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+
+disons que cnt_x vaut 5.
+
+##### cnt_y == 1 ##### cnt_x == 5 #####
+
+quand cnt_x vaut 5, il n'ira pas à l'intérieur de la boucle while
+parce que 5 est plus grand que x.(x est 4).
+nous avons donc imprimé chaque axe x lorsque y vaut 1.
+
+maintenant la fonction ft_print_first_line est terminée, nous revenons donc à rush().
+nous étions dans 'if (cnt_y <= 1)'.
+
+la première ligne (y est 1) est terminée,
+donc la prochaine étape est 'ft_putchar('\n').
+chaque fois que nous aurons fini d'imprimer chaque ligne,
+nous devrons mettre une nouvelle ligne (\n).
+puis cnt_y sera augmenté à cause de 'cnt_y++'.
+n'oubliez pas d'initialiser cnt_x à 1,
+car nous devons répéter cette étape pour imprimer la ligne suivante.
+
+maintenant cnt_y vaut 2 à cause de cnt_y++ dans rush().
+
+********** cnt_y == 2 **********
+
+quand cnt_y vaut 2, il ira à l'intérieur de 'else'.
+nous allons entrer dans la fonction ft_print_middle_line().
+
+la fonction ft_print_middle_line() imprime la ligne médiane.
+(je veux dire, y n'est pas 1 ni 4 (|  |)).
+
+void	ft_print_middle_line(int cnt_x, int x)
+{
+	while (cnt_x <= x)
+	{
+		if (cnt_x == 1)
+			ft_putchar('|');
+		else if (cnt_x == x)
+			ft_putchar('|');
+		else
+			ft_putchar(' ');
+	cnt_x++;
+	}
+}
+
+disons que cnt_x vaut 1.
+
+##### cnt_y == 2 ##### cnt_x == 1 #####
+
+quand cnt_x vaut 1, il ira à l'intérieur de 'if (cnt_x == 1)'.
+il imprimera le caractère '|' (la position imprimée (x, y) est (1, 2)).
+après avoir imprimé le caractère '|', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|
+
+maintenant cnt_x vaut 2.
+
+##### cnt_y == 2 ##### cnt_x == 2 #####
+
+quand cnt_x vaut 2, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère ' ' (la position imprimée (x, y) est (2, 2)).
+après avoir imprimé le caractère ' ', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+| 
+
+disons que cnt_x vaut 3.
+
+##### cnt_y == 2 ##### cnt_x == 3 #####
+
+quand cnt_x vaut 3, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère ' ' (la position imprimée (x, y) est (3, 2)).
+après avoir imprimé le caractère ' ', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  
+
+disons que cnt_x vaut 4.
+
+##### cnt_y == 2 ##### cnt_x == 4 #####
+
+quand cnt_x vaut 4, il ira à l'intérieur de 'else if (cnt_x == x)'
+(parce qu'à l'intérieur du main, nous procédons (x, y) comme (4, 4), donc x vaut 4).
+il imprimera le caractère '|' (la position imprimée (x, y) est (4, 2)).
+après avoir imprimé le caractère '|', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+
+disons que cnt_x vaut 5.
+
+##### cnt_y == 2 ##### cnt_x == 5 #####
+
+quand cnt_x vaut 5, il n'ira pas à l'intérieur de la boucle while
+parce que 5 est plus grand que x.(x est 4).
+nous avons donc imprimé chaque axe x lorsque y vaut 2.
+
+maintenant la fonction ft_print_middle_line est terminée,
+nous revenons donc à rush().
+nous étions dans 'else'.
+
+la deuxième ligne (y est 2) est terminée,
+donc la prochaine étape est 'ft_putchar('\n').
+nous devrons mettre une nouvelle ligne (\n)
+et cnt_y sera augmenté à cause de 'cnt_y++'.
+n'oubliez pas d'initialiser cnt_x à 1,
+car nous devons répéter cette étape pour imprimer la ligne suivante.
+
+maintenant cnt_y vaut 3 à cause de cnt_y++ dans rush().
+
+********** cnt_y == 3 **********
+
+quand cnt_y vaut 3, il ira à l'intérieur de 'else'.
+nous allons entrer dans la fonction ft_print_middle_line().
+
+la fonction ft_print_middle_line() imprime la ligne médiane.
+(je veux dire, y n'est pas 1 ni 4 (|  |)).
+
+void	ft_print_middle_line(int cnt_x, int x)
+{
+	while (cnt_x <= x)
+	{
+		if (cnt_x == 1)
+			ft_putchar('|');
+		else if (cnt_x == x)
+			ft_putchar('|');
+		else
+			ft_putchar(' ');
+		cnt_x++;
+	}
+}
+
+disons que cnt_x vaut 1.
+
+##### cnt_y == 3 ##### cnt_x == 1 #####
+
+quand cnt_x vaut 1, il ira à l'intérieur de 'if (cnt_x == 1)'.
+il imprimera le caractère '|' (la position imprimée (x, y) est (1, 3)).
+après avoir imprimé le caractère '|', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|
+
+maintenant cnt_x vaut 2.
+
+##### cnt_y == 3 ##### cnt_x == 2 #####
+
+quand cnt_x vaut 2, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère ' ' (la position imprimée (x, y) est (2, 3)).
+après avoir imprimé le caractère ' ', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|
+
+disons que cnt_x vaut 3.
+
+##### cnt_y == 3 ##### cnt_x == 3 #####
+
+quand cnt_x vaut 3, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère ' ' (la position imprimée (x, y) est (3, 3)).
+après avoir imprimé le caractère '', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|
+
+disons que cnt_x vaut 4.
+
+##### cnt_y == 3 ##### cnt_x == 4 #####
+
+wquand cnt_x vaut 4, il ira à l'intérieur de 'else if (cnt_x == x)'
+(parce qu'à l'intérieur du main, nous procédons (x, y) comme (4, 4), donc x vaut 4).
+il imprimera le caractère '|' (la position imprimée (x, y) est (4, 3)).
+après avoir imprimé le caractère '|', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|  |
+
+disons que cnt_x vaut 5.
+
+##### cnt_y == 3 ##### cnt_x == 5 #####
+
+quand cnt_x vaut 5, il n'ira pas à l'intérieur de la boucle while
+parce que 5 est plus grand que x.(x est 4).
+nous avons donc imprimé chaque axe x lorsque y vaut 3.
+
+maintenant la fonction ft_print_middle_line est terminée,
+nous reviendrons donc à rush().
+nous étions dans 'else'.
+
+la troisième ligne (y est 3) est terminée,
+donc la prochaine étape est 'ft_putchar('\n').
+nous devrons mettre une nouvelle ligne (\n)
+et cnt_y sera augmenté à cause de 'cnt_y++'.
+n'oubliez pas d'initialiser cnt_x à 1,
+car nous devons éviter cette étape pour imprimer la ligne suivante.
+
+maintenant cnt_y vaut 3 à cause de cnt_y++ dans rush().
+
+********** cnt_y == 4 **********
+
+quand cnt_y vaut 4, il ira à l'intérieur de 'else if (cnt_y == y)'.
+nous allons entrer dans la fonction ft_print_last_line().
+
+la fonction ft_print_last_line() imprime la dernière ligne.
+(je veux dire, y est 4(o--o)).
+
+void	ft_print_last_line(int cnt_x, int x)
+{
+	while (cnt_x <= x)
+	{
+		if (cnt_x == 1)
+			ft_putchar('o');
+		else if (cnt_x == x)
+			ft_putchar('o');
+		else
+			ft_putchar('-');
+		cnt_x++;
+	}
+}
+
+disons que cnt_x vaut 1.
+
+##### cnt_y == 4 ##### cnt_x == 1 #####
+
+quand cnt_x vaut 1, il ira à l'intérieur de 'if (cnt_x == 1)'.
+il imprimera le caractère 'o' (la position imprimée (x, y) est (1, 4)).
+après avoir imprimé le caractère 'o', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|  |
+o
+
+maintenant cnt_x vaut 2.
+
+##### cnt_y == 4 ##### cnt_x == 2 #####
+
+quand cnt_x vaut 2, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère '-' (la position imprimée (x, y) est (2, 4)).
+après avoir imprimé le caractère '-', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|  |
+o-
+
+disons que cnt_x vaut 3.
+
+##### cnt_y == 4 ##### cnt_x == 3 #####
+
+quand cnt_x vaut 3, il ira à l'intérieur de 'else' (parce que cnt_x n'est ni 1 ni x).
+il imprimera le caractère '-' (la position imprimée (x, y) est (3, 4)).
+après avoir imprimé le caractère '-', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|  |
+o--
+
+disons que cnt_x vaut 4.
+
+##### cnt_y == 4 ##### cnt_x == 4 #####
+
+quand cnt_x vaut 4, il ira à l'intérieur de 'else if (cnt_x == x)'
+(parce qu'à l'intérieur du main, nous procédons (x, y) comme (4, 4), donc x vaut 4).
+il imprimera le caractère 'o' (la position imprimée (x, y) est (4, 4)).
+après avoir imprimé le caractère 'o', cnt_x sera augmenté à cause de 'cnt_x++'.
+
+<le résultat>
+o--o
+|  |
+|  |
+o--o
+
+disons que cnt_x vaut 5.
+
+##### cnt_y == 4 ##### cnt_x == 5 #####
+
+quand cnt_x vaut 5, il n'ira pas à l'intérieur de la boucle while
+parce que 5 est plus grand que x.(x est 4).
+nous avons donc imprimé chaque axe x lorsque y vaut 4.
+
+maintenant la fonction ft_print_last_line est terminée, nous revenons donc à rush().
+nous étions dans 'else if (cnt_y == y)'.
+
+le quatrième (y est 4) est terminé, donc la prochaine étape est 'ft_putchar('\n').
+nous devrons mettre une nouvelle ligne (\n)
+et cnt_y sera augmenté à cause de 'cnt_y++'.
+n'oubliez pas d'initialiser cnt_x à 1,
+car nous devons répéter cette étape pour imprimer la ligne suivante.
+
+maintenant cnt_y vaut 5 à cause de cnt_y++ dans rush().
+
+********** cnt_y == 5 **********
+
+quand cnt_y vaut 5, il n'ira pas à l'intérieur de la boucle while
+car 5 est plus grand que y. (y est 4).
+nous avons déjà tout imprimé et la fonction rush() est terminée.
+
+la fonction main() est également exécutée.
+
+---------------------------------------------------------------------------
+
+//compiler
+
+vous devez utiliser le compilateur gcc et les flags -Wall -Wextra -Werror.
+
+si vous voulez voir le résultat de rush00,
+vous pouvez mettre la commande comme
+"gcc -Wall -Wextra -Werror ft_putchar.c main.c rush00.c"
+puis exécutez a.out via la commande "./a.out".
+
+si vous voulez voir le résultat de rush01,
+vous pouvez mettre la commande comme
+"gcc -Wall -Wextra -Werror ft_putchar.c main.c rush01.c"
+puis exécutez a.out via la commande "./a.out".
+
+si vous voulez voir le résultat de rush02,
+vous pouvez mettre la commande comme
+"gcc -Wall -Wextra -Werror ft_putchar.c main.c rush02.c"
+puis exécutez a.out via la commande "./a.out".
+
+si vous voulez voir le résultat de rush03,
+vous pouvez mettre la commande comme
+"gcc -Wall -Wextra -Werror ft_putchar.c main.c rush03.c"
+puis exécutez a.out via la commande "./a.out".
+
+si vous voulez voir le résultat de rush04,
+vous pouvez mettre la commande comme
+"gcc -Wall -Wextra -Werror ft_putchar.c main.c rush04.c"
+puis exécutez a.out via la commande "./a.out".
+
+chaque fois que vous modifiez le fichier main, vous devez compiler à nouveau.
+
+---------------------------------------------------------------------------
+
+n'oubliez pas de vérifier si votre projet a une erreur de norminette, 
+et assurez-vous que tous les fichiers(ft_putchar.c, main.c, and rush0X.c)
+se trouvent dans le répertoire ex00.
+
+ou moulinette vous donnera la note 0.
+
