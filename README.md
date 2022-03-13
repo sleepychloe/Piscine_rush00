@@ -1,4 +1,4 @@
-# piscine_rush00
+# Piscine_rush00
 
 ft_putchar.c\
 main.c\
