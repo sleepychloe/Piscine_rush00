@@ -9,4 +9,5 @@ rush03.c\
 rush04.c
 
 There are explanations of all step I did in the "rush00_en.txt" and "rush00_fr".\
-French version might include wrong sentences, so I recommend that reading English version.
+French version might include wrong sentences and expressions,\
+so I highly recommend that reading English version.
