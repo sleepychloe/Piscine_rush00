@@ -8,6 +8,6 @@ rush02.c\
 rush03.c\
 rush04.c
 
-There are explanations of all step I did in the "rush00_en.txt" and "rush00_fr".\
+There are explanations of all step I did in the "rush00_en.txt" and "rush00_fr.txt".\
 French version might include wrong sentences and expressions,\
 so I highly recommend that reading English version.
