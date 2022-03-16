@@ -84,7 +84,7 @@ void	rush(int x, int y)
 
 	cnt_x = 1;
 	cnt_y = 1;
-	if (x < 0 || y < 0 || x > 2147483647 || y > 2147483647)
+	if (x <= 0 || y <= 0 || x > 2147483647 || y > 2147483647)
 	{
 		err_msg();
 		return ;
@@ -118,13 +118,13 @@ i declared 'cnt_x' and 'cnt_y' variables to count x axis and y axis.
 and then initialized to 1(usually we tend to initialize int variable to 0,
 but i did to 1 because it is more easy to see in this function)
 
-if (x < 0 || y < 0 || x > 2147483647 || y > 2147483647)
+if (x <= 0 || y <= 0 || x > 2147483647 || y > 2147483647)
 {
 	err_msg();
 	return ;
 }
 
-if the x or y is less than 0, error message should be printed.
+if the x or y is 0 or less than 0, error message should be printed.
 because when one of them is negative number, we can't express the result.
 
 if the x or y is bigger than 2147483647, error message should be printed.
