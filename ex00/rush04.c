@@ -68,7 +68,7 @@ void	rush(int x, int y)
 
 	cnt_x = 1;
 	cnt_y = 1;
-	if (x < 0 || y < 0 || x > 2147483647 || y > 2147483647)
+	if (x <= 0 || y <= 0 || x > 2147483647 || y > 2147483647)
 	{
 		err_msg();
 		return ;
