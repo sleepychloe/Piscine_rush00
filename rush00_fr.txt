@@ -85,7 +85,7 @@ void	rush(int x, int y)
 
 	cnt_x = 1;
 	cnt_y = 1;
-	if (x < 0 || y < 0 || x > 2147483647 || y > 2147483647)
+	if (x <= 0 || y <= 0 || x > 2147483647 || y > 2147483647)
 	{
 		err_msg();
 		return ;
@@ -120,19 +120,19 @@ puis initialisé à 1(généralement, nous avons tendance à initialiser la vari
 int à 0, mais je l'ai fait à 1 parce que c'est plus facile
 à voir dans cette fonction)
 
-if (x < 0 || y < 0 || x > 2147483647 || y > 2147483647)
+if (x <= 0 || y <= 0 || x > 2147483647 || y > 2147483647)
 {
 	err_msg();
 	return ;
 }
 
-si x ou y est inférieur à 0, un message d'erreur doit être imprimé.
+si x ou y est 0 ou inférieur à 0, un message d'erreur doit être imprimé.
 car lorsque l'un d'eux est un nombre négatif,
 nous ne pouvons pas exprimer le résultat.
 
 si x ou y est supérieur à 2147483647, un message d'erreur doit être imprimé.
-car le nombre 2147483648 signifie la valeur maximale de la variable int,
-donc quand l'un de x et y est plus grand que 2147483648, ce n'est plus int.
+car le nombre 2147483647 signifie la valeur maximale de la variable int,
+donc quand l'un de x et y est plus grand que 2147483647, ce n'est plus int.
 
 	    (x)1234 (<- x axis)
 	  (y)
