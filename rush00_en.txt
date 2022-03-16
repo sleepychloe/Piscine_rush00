@@ -128,8 +128,8 @@ if the x or y is less than 0, error message should be printed.
 because when one of them is negative number, we can't express the result.
 
 if the x or y is bigger than 2147483647, error message should be printed.
-because the number 2147483648 means the maximum value of int variable,
-so when one of x and y is bigger than 2147483648, it is not int anymore.
+because the number 21474836487 means the maximum value of int variable,
+so when one of x and y is bigger than 2147483647, it is not int anymore.
 
 	    (x)1234 (<- x axis)
 	  (y)
